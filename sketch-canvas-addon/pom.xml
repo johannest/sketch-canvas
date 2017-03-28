@@ -6,7 +6,7 @@
 	<artifactId>sketch-canvas</artifactId>
 	<packaging>jar</packaging>
 	<version>0.1</version>
-	<name>MyComponent Add-on</name>
+	<name>Sketch Canvas Add-on</name>
 
 	<prerequisites>
 		<maven>3</maven>

@@ -12,3 +12,6 @@ Quickstart
 How to use
 ---
 See MyUI class for code example.
+
+The project is sponsored by our consulting client.
+---
