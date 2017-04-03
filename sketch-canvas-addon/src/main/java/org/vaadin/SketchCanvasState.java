@@ -12,4 +12,5 @@ public class SketchCanvasState extends JavaScriptComponentState {
   public String secondaryColor = "white";
   public String backgroundColor = "hsla(0%, 0%, 0%, 0)";
 
+  public int strokeWidth = 5;
 }

@@ -20,8 +20,8 @@ public class MyUI extends UI {
   protected void init(VaadinRequest vaadinRequest) {
     final VerticalLayout layout = new VerticalLayout();
 
-    SketchCanvas canvas1 = new SketchCanvas(600, 390);
-    SketchCanvas canvas2 = new SketchCanvas(600, 390);
+    SketchCanvas canvas1 = new SketchCanvas(600, 400);
+    SketchCanvas canvas2 = new SketchCanvas(600, 400);
 
     canvas1.addDrawingChangeListener(json -> {
       canvas2.updateDrawing(json);
@@ -36,11 +36,12 @@ public class MyUI extends UI {
       canvas1.clear();
     });
 
-    Button showColorsButton = new Button("showColors", clickEvent -> {
+    Button showStateButton = new Button("showCurrentState", clickEvent -> {
       Notification.show(
           canvas1.getColor(SketchCanvas.ColorType.PRIMARY) + " " + canvas1
               .getColor(SketchCanvas.ColorType.SECONDARY) + " " + canvas1
-              .getColor(SketchCanvas.ColorType.BACKGROUND));
+              .getColor(SketchCanvas.ColorType.BACKGROUND)+" "
+              + ""+canvas1.getSelectedTool()+" "+canvas1.getStrokeWidth());
     });
 
     Button setColorsButton = new Button("setColors (red/green/white)",
@@ -50,12 +51,16 @@ public class MyUI extends UI {
           canvas1.setColor(SketchCanvas.ColorType.BACKGROUND, "white");
         });
 
-    Button setTool = new Button("setTool (pencil)", clickEvent -> {
-      canvas1.setSelectedTool("Pencil");
+    Button setTool1 = new Button("setTool (Pencil:1)", clickEvent -> {
+      canvas1.setSelectedTool("Pencil", 1);
+    });
+    Button setTool2 = new Button("setTool (Ellipse:10)", clickEvent -> {
+      canvas1.setSelectedTool("Ellipse", 10);
     });
 
     buttonLayout
-        .addComponents(clearButton, showColorsButton, setColorsButton, setTool);
+        .addComponents(clearButton, showStateButton, setColorsButton,
+            setTool1, setTool2);
     layout.addComponents(buttonLayout, canvas1, new Label("Modifications are "
         + "collaborated between these two canvases"
         + ""), canvas2);

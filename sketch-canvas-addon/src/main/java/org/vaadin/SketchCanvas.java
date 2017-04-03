@@ -8,6 +8,7 @@ import com.vaadin.annotations.StyleSheet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
+import elemental.json.JsonObject;
 
 /**
  * Simple collaborative sketching widget
@@ -28,9 +29,25 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     PRIMARY, SECONDARY, BACKGROUND;
   }
 
-  ArrayList<DrawingChangeListener> drawingChangeListeners = new ArrayList<DrawingChangeListener>();
+  /**
+   * Tool type
+   */
+  public enum Tool {
+    ELLIPSE("Ellipse"), ERASER("Eraser"), EYEDROPPER("Eyedropper"), LINE("Line"), PAN("Pan"), PENCIL("Pencil"), POLYGON("Polygon"), RECTANGLE("Rectangle"),
+        TEXT("Text");
 
-  private double margin = 10;
+    private String toolName;
+
+    private Tool(String toolName) {
+      this.toolName = toolName;
+    }
+
+    public String getName() {
+      return toolName;
+    }
+  }
+
+  ArrayList<DrawingChangeListener> drawingChangeListeners = new ArrayList<DrawingChangeListener>();
 
   /**
    * Initialize full sized
@@ -71,10 +88,32 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    * @param toolName
    *     such as Pencil
    */
-  public void setSelectedTool(String toolName) {
-    callFunction("setSelectedTool", toolName);
+  public void setSelectedTool(String toolName, Integer strokeWidth) {
+    callFunction("setSelectedTool", toolName, strokeWidth);
   }
 
+  /**
+   * @see #setSelectedTool(String, Integer)
+   * @param tool
+   * @param strokeWidth
+   */
+  public void setSelectedTool(Tool tool, Integer strokeWidth) {
+    callFunction("setSelectedTool", tool.getName(), strokeWidth);
+  }
+
+  /**
+   * Returns currently selected Tool
+   * @return
+   */
+  public Tool getSelectedTool() {
+    return Enum.valueOf(Tool.class, getState().selectedTool.toUpperCase());
+  }
+
+  /**
+   * Current color for given color type
+   * @param colorType
+   * @return
+   */
   public String getColor(ColorType colorType) {
     switch (colorType) {
     case PRIMARY:
@@ -89,6 +128,14 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   public void setColor(ColorType type, String color) {
     callFunction("setUsedColor", type.name().toLowerCase(), color);
+  }
+
+  /**
+   * Current stroke width
+   * @return
+   */
+  public int getStrokeWidth() {
+    return getState().strokeWidth;
   }
 
   /**
@@ -112,8 +159,8 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     if (widthPx == null && heightPx == null) {
       setSizeFull();
     } else {
-      setWidth(widthPx + margin + "px");
-      setHeight(heightPx + margin + "px");
+      setWidth(widthPx + "px");
+      setHeight(heightPx + "px");
     }
 
     addFunction("drawingChange", arguments -> {
@@ -123,6 +170,11 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     addFunction("toolChange", arguments -> {
       System.out.println(arguments.toJson());
       getState().selectedTool = arguments.getString(0);
+      final JsonObject strokeObject = arguments.getObject(1);
+      if (strokeObject!=null) {
+        final double strokeWidth = strokeObject.getNumber("strokeWidth");
+        getState().strokeWidth = (int)strokeWidth;
+      }
     });
     addFunction("primaryColorChange", arguments -> {
       getState().primaryColor = arguments.getString(0);

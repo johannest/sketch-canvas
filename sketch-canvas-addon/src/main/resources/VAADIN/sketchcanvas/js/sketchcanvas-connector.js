@@ -42,23 +42,32 @@ window.org_vaadin_SketchCanvas =
             toolElement.classList.add("selected");
         }
 
-        this.setSelectedTool = function (tool) {
+        this.setSelectedTool = function (tool, storeWidth) {
             // TODO update css selected classname 
             switch (tool) {
                 case "Pencil" :
                     var pencil = new LC.tools.Pencil(lc);
+                    pencil.strokeWidth = storeWidth;
                     lc.setTool(pencil);
                     break;
                 case "Eraser" :
                     var eraser = new LC.tools.Eraser(lc);
+                    eraser.strokeWidth = storeWidth;
                     lc.setTool(eraser);
+                    break;
+                case "Ellipse" :
+                    var ellipse = new LC.tools.Ellipse(lc);
+                    ellipse.strokeWidth = storeWidth;
+                    lc.setTool(ellipse);
                     break;
                 case "Line" :
                     var line = new LC.tools.Line(lc);
+                    line.strokeWidth = storeWidth;
                     lc.setTool(line);
                     break;
                 case "Rectangle" :
                     var rectangle = new LC.tools.Rectangle(lc);
+                    rectangle.strokeWidth = storeWidth;
                     lc.setTool(rectangle);
                     break;
                 case "Text" :
@@ -67,6 +76,7 @@ window.org_vaadin_SketchCanvas =
                     break;
                 case "Polygon" :
                     var polygon = new LC.tools.Polygon(lc);
+                    polygon.strokeWidth = storeWidth;
                     lc.setTool(polygon);
                     break;
                 case "Pan" :
@@ -94,8 +104,10 @@ window.org_vaadin_SketchCanvas =
 
         var unsubscribeToolChange = lc.on('toolChange', function (tool) {
             console.log(tool.tool);
-            removeSelectedClassNameFromPreviousTool();
-            currentToolName = tool.tool.name;
+            if (tool.tool.name != currentToolName) {
+                removeSelectedClassNameFromPreviousTool();
+                currentToolName = tool.tool.name;
+            }
             self.toolChange(tool.tool.name, tool.tool);
         });
 
