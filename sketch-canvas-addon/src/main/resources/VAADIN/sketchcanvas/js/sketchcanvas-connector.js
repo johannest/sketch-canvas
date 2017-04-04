@@ -125,4 +125,14 @@ window.org_vaadin_SketchCanvas =
             console.log(color);
             self.backgroundColorChange(color);
         });
+
+        this.requestSVG = function() {
+            var svgStr = lc.getSVGString();
+            self.setSVGString(svgStr);
+        };
+
+        this.requestImage = function() {
+            var imgData = lc.getImage().toDataURL();
+            self.setImageData(imgData);
+        };
     };

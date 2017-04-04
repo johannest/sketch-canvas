@@ -1,10 +1,16 @@
 package org.vaadin;
 
+import java.io.ByteArrayInputStream;
 import java.io.Serializable;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Optional;
 
 import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
+import com.vaadin.server.Resource;
+import com.vaadin.server.StreamResource;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
@@ -21,6 +27,14 @@ import elemental.json.JsonObject;
     "vaadin://sketchcanvas/js/literallycanvas.js",
     "vaadin://sketchcanvas/js/sketchcanvas-connector.js" })
 public class SketchCanvas extends AbstractJavaScriptComponent {
+
+  /**
+   * Image data consumer
+   * @param <String> svg or base64 image
+   */
+  public interface ImageDataConsumer<String> {
+    void consume(String imageData);
+  }
 
   /**
    * ColorType
@@ -47,7 +61,10 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     }
   }
 
-  ArrayList<DrawingChangeListener> drawingChangeListeners = new ArrayList<DrawingChangeListener>();
+  private ArrayList<DrawingChangeListener> drawingChangeListeners = new ArrayList<DrawingChangeListener>();
+
+  private Optional<ImageDataConsumer<String>> optionalSVGConsumer;
+  private Optional<ImageDataConsumer<String>> optionalImageConsumer;
 
   /**
    * Initialize full sized
@@ -139,6 +156,24 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
   }
 
   /**
+   * Request current drawing as an SVG String
+   * @param svgConsumer
+   */
+  public void requestImageAsSVGString(ImageDataConsumer<String> svgConsumer) {
+    this.optionalSVGConsumer = Optional.of(svgConsumer);
+    callFunction("requestSVG");
+  }
+
+  /**
+   * Request current drawing as base64 encoded String
+   * @param imageConsumer
+   */
+  public void requestImageAsBase64(ImageDataConsumer<String> imageConsumer) {
+    this.optionalImageConsumer = Optional.of(imageConsumer);
+    callFunction("requestImage");
+  }
+
+  /**
    * Listen all the draw updates
    *
    * @param listener
@@ -184,6 +219,16 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     });
     addFunction("backgroundColorChange", arguments -> {
       getState().backgroundColor = arguments.getString(0);
+    });
+    addFunction("setSVGString", arguments -> {
+      optionalSVGConsumer.ifPresent(consumer -> {
+        consumer.consume(arguments.getString(0));
+      });
+    });
+    addFunction("setImageData", arguments -> {
+      optionalImageConsumer.ifPresent(consumer -> {
+        consumer.consume(arguments.getString(0));
+      });
     });
   }
 
@@ -237,5 +282,29 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
      *     current json snapshot of the drawing
      */
     void drawingChange(JsonArray json);
+  }
+
+  /**
+   * Create Vaadin Resource out of svg String
+   * @param svgData
+   * @param fileName
+   * @return
+   */
+  public static Resource getSVGResource(String svgData, String fileName) {
+    return new StreamResource(() -> {
+      return new ByteArrayInputStream(svgData.getBytes());
+    }, fileName);
+  }
+
+  /**
+   * Create Vaadin Resource out of base 64 String
+   * @param imgData
+   * @param fileName
+   * @return
+   */
+  public static Resource getPNGResource(String imgData, String fileName) {
+    return new StreamResource(() -> {
+      return new ByteArrayInputStream(Base64.getDecoder().decode(imgData.split(",")[1].getBytes(StandardCharsets.UTF_8)));
+    }, fileName);
   }
 }

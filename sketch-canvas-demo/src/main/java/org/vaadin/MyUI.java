@@ -4,6 +4,7 @@ import javax.servlet.annotation.WebServlet;
 
 import com.vaadin.annotations.Push;
 import com.vaadin.annotations.VaadinServletConfiguration;
+import com.vaadin.server.FileDownloader;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.Button;
@@ -32,6 +33,7 @@ public class MyUI extends UI {
     });
 
     HorizontalLayout buttonLayout = new HorizontalLayout();
+    HorizontalLayout buttonLayout2 = new HorizontalLayout();
     Button clearButton = new Button("Clear", clickEvent -> {
       canvas1.clear();
     });
@@ -57,11 +59,28 @@ public class MyUI extends UI {
     Button setTool2 = new Button("setTool (Ellipse:10)", clickEvent -> {
       canvas1.setSelectedTool("Ellipse", 10);
     });
+    Button downloadSVG = new Button("Download as SVG", clickEvent -> {
+      canvas1.requestImageAsSVGString(svg -> {
+        FileDownloader fd = new FileDownloader(SketchCanvas.getSVGResource(svg, "my_image.svg"));
+        Button downloadButton = new Button("download");
+        fd.extend(downloadButton);
+        buttonLayout2.addComponent(downloadButton);
+      });
+    });
+    Button downloadPNG = new Button("Download as PNG", clickEvent -> {
+      canvas1.requestImageAsBase64(img -> {
+        FileDownloader fd = new FileDownloader(SketchCanvas.getPNGResource(img,"my_image.png"));
+        Button downloadButton = new Button("download");
+        fd.extend(downloadButton);
+        buttonLayout2.addComponent(downloadButton);
+      });
+    });
 
     buttonLayout
         .addComponents(clearButton, showStateButton, setColorsButton,
             setTool1, setTool2);
-    layout.addComponents(buttonLayout, canvas1, new Label("Modifications are "
+    buttonLayout2.addComponents(downloadSVG, downloadPNG);
+    layout.addComponents(buttonLayout, buttonLayout2, canvas1, new Label("Modifications are "
         + "collaborated between these two canvases"
         + ""), canvas2);
 
