@@ -75,11 +75,14 @@ public class MyUI extends UI {
         buttonLayout2.addComponent(downloadButton);
       });
     });
+    Button setEnabled = new Button("toggle setEnabled", e -> {
+      canvas1.setEnabled(!canvas1.isEnabled());
+    });
 
     buttonLayout
         .addComponents(clearButton, showStateButton, setColorsButton,
             setTool1, setTool2);
-    buttonLayout2.addComponents(downloadSVG, downloadPNG);
+    buttonLayout2.addComponents(downloadSVG, downloadPNG, setEnabled);
     layout.addComponents(buttonLayout, buttonLayout2, canvas1, new Label("Modifications are "
         + "collaborated between these two canvases"
         + ""), canvas2);

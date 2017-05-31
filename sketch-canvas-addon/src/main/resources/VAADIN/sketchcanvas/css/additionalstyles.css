@@ -1,3 +1,15 @@
 .sketch-canvas {
     overflow: hidden;
 }
+.lc-picker.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.horz-toolbar.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.lc-drawing.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

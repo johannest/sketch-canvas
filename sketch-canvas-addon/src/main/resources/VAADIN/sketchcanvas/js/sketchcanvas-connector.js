@@ -7,11 +7,30 @@ window.org_vaadin_SketchCanvas =
         var heightpx = null;
         var loadingSnapshot = false;
         var currentToolName;
+        var enabled = true;
 
         this.onStateChange = function () {
             var state = this.getState();
             widthpx = state.widthPx;
             heightpx = state.heightPx;
+
+            if (enabled !== state.enabled && state.enabled !== undefined) {
+                enabled = state.enabled;
+
+                var toolbarVertical = element.querySelector(".lc-picker");
+                var toolbarHorizontal = element.querySelector(".horz-toolbar");
+                var drawingArea = element.querySelector(".lc-drawing");
+
+                if (enabled) {
+                    toolbarVertical.classList.remove("disabled");
+                    toolbarHorizontal.classList.remove("disabled");
+                    drawingArea.classList.remove("disabled");
+                } else {
+                    toolbarVertical.classList.add("disabled");
+                    toolbarHorizontal.classList.add("disabled");
+                    drawingArea.classList.add("disabled");
+                }
+            }
         };
 
         lc = LC.init(
