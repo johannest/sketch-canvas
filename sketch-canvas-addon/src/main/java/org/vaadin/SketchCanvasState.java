@@ -3,8 +3,6 @@ package org.vaadin;
 import com.vaadin.shared.ui.JavaScriptComponentState;
 
 public class SketchCanvasState extends JavaScriptComponentState {
-  public int widthPx;
-  public int heightPx;
 
   public String selectedTool = "Line";
 

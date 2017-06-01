@@ -188,8 +188,8 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   private void init(Integer widthPx, Integer heightPx) {
     addStyleName("sketch-canvas");
-    getState().widthPx = widthPx;
-    getState().heightPx = heightPx;
+    getState().width = widthPx+"px";
+    getState().height = heightPx+"px";
 
     if (widthPx == null && heightPx == null) {
       setSizeFull();
@@ -230,40 +230,6 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
         consumer.consume(arguments.getString(0));
       });
     });
-  }
-
-  /**
-   * Set width of canvas in pixels
-   *
-   * @param widthPx
-   */
-  public void setWidth(int widthPx) {
-    getState().widthPx = widthPx;
-  }
-
-  /**
-   * Set height of canvas in pixels
-   *
-   * @param heightPx
-   */
-  public void setHeight(int heightPx) {
-    getState().heightPx = heightPx;
-  }
-
-  /**
-   * @return
-   * @see #setWidth(int)
-   */
-  public int getWidthInPx() {
-    return getState().widthPx;
-  }
-
-  /**
-   * @return
-   * @see #setHeight(int)
-   */
-  public int getHeightInPx() {
-    return getState().heightPx;
   }
 
   @Override

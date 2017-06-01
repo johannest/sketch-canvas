@@ -3,16 +3,25 @@ window.org_vaadin_SketchCanvas =
         var self = this;
         var element = this.getElement();
         var lc = null;
-        var widthpx = null;
-        var heightpx = null;
+
+        var width = null;
+        var height = null;
         var loadingSnapshot = false;
         var currentToolName;
         var enabled = true;
 
         this.onStateChange = function () {
             var state = this.getState();
-            widthpx = state.widthPx;
-            heightpx = state.heightPx;
+
+            if (width !== state.width || height !== state.height) {
+                width = state.width;
+                height = state.height;
+
+                // trigger resize
+                var evt = document.createEvent("UIEvent");
+                evt.initEvent("resize", false, true);
+                window.dispatchEvent(evt);
+            }
 
             if (enabled !== state.enabled && state.enabled !== undefined) {
                 enabled = state.enabled;
@@ -36,7 +45,7 @@ window.org_vaadin_SketchCanvas =
         lc = LC.init(
             element,
             {imageURLPrefix: '/VAADIN/sketchcanvas/img'},
-            {imageSize: {width: widthpx, height: heightpx}}
+            {imageSize: {width: width, height: height}}
         );
 
         this.updateDrawing = function (snapshot) {
