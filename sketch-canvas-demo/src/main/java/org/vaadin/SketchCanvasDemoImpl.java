@@ -69,7 +69,7 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
             sketchCanvas.setHeight("100%");
         });
         setHeight400.addClickListener(e -> {
-            sketchCanvas.setHeight("100%");
+            sketchCanvas.setHeight("400px");
         });
     }
 

@@ -17,6 +17,9 @@ window.org_vaadin_SketchCanvas =
                 width = state.width;
                 height = state.height;
 
+                var lcElement = element.querySelector(".literally");
+                lcElement.setAttribute("style", "width:"+width+";height:"+height);
+
                 // trigger resize
                 var evt = document.createEvent("UIEvent");
                 evt.initEvent("resize", false, true);
