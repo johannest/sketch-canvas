@@ -57,6 +57,13 @@ window.org_vaadin_SketchCanvas =
             loadingSnapshot = false;
         };
 
+        this.updateDrawingWithScale = function (scalingFactor, snapshot) {
+            loadingSnapshot = true;
+            var scaledSnapshot = snapshot.replace(new RegExp("scale\":[0-9.]*,"),"scale\":"+scalingFactor+",");
+            lc.loadSnapshot(JSON.parse(scaledSnapshot));
+            loadingSnapshot = false;
+        };
+
         this.clearDrawing = function () {
             lc.clear();
         };
@@ -129,7 +136,7 @@ window.org_vaadin_SketchCanvas =
 
         var unsubscribeDrawingChange = lc.on('drawingChange', function () {
             if (!loadingSnapshot) {
-                self.drawingChange(lc.getSnapshotJSON());
+                self.drawingChange(JSON.stringify(lc.getSnapshot()));
             }
         });
 

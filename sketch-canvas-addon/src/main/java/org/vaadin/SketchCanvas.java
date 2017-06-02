@@ -79,7 +79,16 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    * @param json
    */
   public void updateDrawing(JsonArray json) {
-    callFunction("updateDrawing", json);
+    callFunction("updateDrawing", json.get(0));
+  }
+
+  /**
+   * Update canvas with given json snapshot and scalingFactor
+   *
+   * @param json
+   */
+  public void updateDrawingWithScalingFactor(JsonArray json, double scalingFactor) {
+    callFunction("updateDrawingWithScale", scalingFactor, json.get(0));
   }
 
   /**

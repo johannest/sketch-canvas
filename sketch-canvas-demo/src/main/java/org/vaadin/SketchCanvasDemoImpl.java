@@ -85,11 +85,11 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
 
     private void initializeTab3() {
         sketchCanvas3.addDrawingChangeListener(json -> {
-            sketchCanvas4.updateDrawing(json);
+            sketchCanvas4.updateDrawingWithScalingFactor(json, 2);
         });
 
         sketchCanvas4.addDrawingChangeListener(json -> {
-            sketchCanvas3.updateDrawing(json);
+            sketchCanvas3.updateDrawingWithScalingFactor(json, 0.5);
         });
     }
 

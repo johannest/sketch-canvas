@@ -68,12 +68,13 @@
       <org_vaadin-sketch-canvas size-full tabicon="" _id="sketchCanvas2" :expand></org_vaadin-sketch-canvas>
      </vaadin-vertical-layout>
     </tab>
-    <tab caption="Scaled picture">
+    <tab caption="Scaled picture (alpha)">
      <vaadin-vertical-layout size-full>
       <vaadin-horizontal-layout spacing="false" size-full :expand>
        <org_vaadin-sketch-canvas size-full _id="sketchCanvas3"></org_vaadin-sketch-canvas>
-       <vaadin-label style-name="h4" plain-text :middle :center>
+       <vaadin-label caption-as-html style-name="h4" :middle :center>
          1x and 2x sizes with scaled collaborative picture 
+        <br>(an initial implmentation) 
        </vaadin-label>
       </vaadin-horizontal-layout>
       <org_vaadin-sketch-canvas size-full _id="sketchCanvas4" :expand="2"></org_vaadin-sketch-canvas>
