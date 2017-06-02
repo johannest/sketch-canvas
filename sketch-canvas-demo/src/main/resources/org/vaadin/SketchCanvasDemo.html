@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;demo&quot;}">
+  <meta name="vaadin-version" content="8.0.5">
+  <meta name="package-mapping" content="org_vaadin:org.vaadin">
+ </head>
+ <body>
+  <vaadin-vertical-layout caption="Demo UI for sketch-canvas add-on." size-full>
+   <vaadin-label style-name="h2" width-full plain-text>
+     Demo UI for sketch-canvas add-on. 
+   </vaadin-label>
+   <vaadin-tab-sheet size-full :expand>
+    <tab caption="Simple example" selected>
+     <vaadin-vertical-layout size-full>
+      <vaadin-horizontal-layout>
+       <vaadin-button _id="clear">
+         clear 
+       </vaadin-button>
+       <vaadin-button _id="showCurrentState">
+         showCurrentState 
+       </vaadin-button>
+       <vaadin-button plain-text _id="setColors">
+         setColors (red/green/white) 
+       </vaadin-button>
+       <vaadin-button _id="setToolPencil">
+         setTool (Pencil:1) 
+       </vaadin-button>
+       <vaadin-button _id="setToolEllipse">
+         setTool (Ellipse:10) 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+      <vaadin-horizontal-layout _id="buttonLo1">
+       <vaadin-button _id="downloadAsSVG">
+         Download as SVG 
+       </vaadin-button>
+       <vaadin-button _id="downloadAsPNG">
+         Download as PNG 
+       </vaadin-button>
+       <vaadin-button plain-text _id="toggleSetEnabled">
+         toggle setEnabled 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+      <vaadin-horizontal-layout>
+       <vaadin-button _id="setWidth100">
+         setWidth(100%) 
+       </vaadin-button>
+       <vaadin-button _id="setWidth300">
+         setWidth(300px) 
+       </vaadin-button>
+       <vaadin-button _id="setHeight100">
+         setHeight(100%) 
+       </vaadin-button>
+       <vaadin-button plain-text _id="setHeight400">
+         setHeight(400px) 
+       </vaadin-button>
+      </vaadin-horizontal-layout>
+      <org_vaadin-sketch-canvas width="500px" height="400px" _id="sketchCanvas" :expand></org_vaadin-sketch-canvas>
+     </vaadin-vertical-layout>
+    </tab>
+    <tab caption="Collaborative example">
+     <vaadin-vertical-layout size-full>
+      <org_vaadin-sketch-canvas size-full _id="sketchCanvas1" :expand></org_vaadin-sketch-canvas>
+      <vaadin-label width-full plain-text>
+        Modifications are collaborated between these two canvases 
+      </vaadin-label>
+      <org_vaadin-sketch-canvas size-full tabicon="" _id="sketchCanvas2" :expand></org_vaadin-sketch-canvas>
+     </vaadin-vertical-layout>
+    </tab>
+    <tab caption="Scaled picture">
+     <vaadin-vertical-layout size-full>
+      <vaadin-horizontal-layout spacing="false" size-full :expand>
+       <org_vaadin-sketch-canvas size-full _id="sketchCanvas3"></org_vaadin-sketch-canvas>
+       <vaadin-label style-name="h4" plain-text :middle :center>
+         1x and 2x sizes with scaled collaborative picture 
+       </vaadin-label>
+      </vaadin-horizontal-layout>
+      <org_vaadin-sketch-canvas size-full _id="sketchCanvas4" :expand="2"></org_vaadin-sketch-canvas>
+     </vaadin-vertical-layout>
+    </tab>
+   </vaadin-tab-sheet>
+  </vaadin-vertical-layout>
+ </body>
+</html>

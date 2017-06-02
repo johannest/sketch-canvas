@@ -52,7 +52,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
     private String toolName;
 
-    private Tool(String toolName) {
+    Tool(String toolName) {
       this.toolName = toolName;
     }
 
@@ -71,16 +71,6 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    */
   public SketchCanvas() {
     init();
-  }
-
-  /**
-   * Initialize with given pixel width and height
-   *
-   * @param widthPx
-   * @param heightPx
-   */
-  public SketchCanvas(int widthPx, int heightPx) {
-    init(widthPx, heightPx);
   }
 
   /**
@@ -182,21 +172,9 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     drawingChangeListeners.add(listener);
   }
 
+
   private void init() {
-    init(null, null);
-  }
-
-  private void init(Integer widthPx, Integer heightPx) {
     addStyleName("sketch-canvas");
-    getState().width = widthPx+"px";
-    getState().height = heightPx+"px";
-
-    if (widthPx == null && heightPx == null) {
-      setSizeFull();
-    } else {
-      setWidth(widthPx + "px");
-      setHeight(heightPx + "px");
-    }
 
     addFunction("drawingChange", arguments -> {
       drawingChangeListeners
