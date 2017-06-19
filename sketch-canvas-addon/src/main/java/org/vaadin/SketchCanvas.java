@@ -16,6 +16,7 @@ import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
 import elemental.json.JsonObject;
+import elemental.json.JsonString;
 
 /**
  * Simple collaborative sketching widget
@@ -194,19 +195,25 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
       System.out.println(arguments.toJson());
       getState().selectedTool = arguments.getString(0);
       final JsonObject strokeObject = arguments.getObject(1);
-      if (strokeObject!=null) {
+      if (strokeObject!=null && strokeObject.hasKey("strokeWidth")) {
         final double strokeWidth = strokeObject.getNumber("strokeWidth");
         getState().strokeWidth = (int)strokeWidth;
       }
     });
     addFunction("primaryColorChange", arguments -> {
-      getState().primaryColor = arguments.getString(0);
+      if (arguments.get(0) instanceof JsonString) {
+        getState().primaryColor = arguments.getString(0);
+      }
     });
     addFunction("secondaryColorChange", arguments -> {
-      getState().secondaryColor = arguments.getString(0);
+      if (arguments.get(0) instanceof JsonString) {
+        getState().secondaryColor = arguments.getString(0);
+      }
     });
     addFunction("backgroundColorChange", arguments -> {
-      getState().backgroundColor = arguments.getString(0);
+      if (arguments.get(0) instanceof JsonString) {
+        getState().backgroundColor = arguments.getString(0);
+      }
     });
     addFunction("setSVGString", arguments -> {
       optionalSVGConsumer.ifPresent(consumer -> {
