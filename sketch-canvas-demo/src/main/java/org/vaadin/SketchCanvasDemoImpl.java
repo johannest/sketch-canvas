@@ -71,6 +71,9 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
         setHeight400.addClickListener(e -> {
             sketchCanvas.setHeight("400px");
         });
+        setFullSize.addClickListener(e -> {
+            sketchCanvas.setSizeFull();
+        });
     }
 
     private void initializeTab2() {

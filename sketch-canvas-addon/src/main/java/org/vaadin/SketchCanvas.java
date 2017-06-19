@@ -184,6 +184,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   private void init() {
     addStyleName("sketch-canvas");
+    getState().contextPath = VaadinServlet.getCurrent().getServletContext().getContextPath();
 
     addFunction("drawingChange", arguments -> {
       drawingChangeListeners
@@ -217,8 +218,6 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
         consumer.consume(arguments.getString(0));
       });
     });
-
-    callFunction("initialize", VaadinServlet.getCurrent().getServletContext().getContextPath());
   }
 
   @Override

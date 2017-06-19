@@ -45,13 +45,13 @@ window.org_vaadin_SketchCanvas =
             }
         };
 
-        this.initialize = function(contextPath) {
-            lc = LC.init(
-                element,
-                {imageURLPrefix: contextPath + '/VAADIN/sketchcanvas/img'},
-                {imageSize: {width: width, height: height}}
-            );
-        };
+        var contextPath = this.getState().contextPath;
+
+        lc = LC.init(
+            element,
+            {imageURLPrefix: contextPath + '/VAADIN/sketchcanvas/img'},
+            {imageSize: {width: width, height: height}}
+        );
 
         this.updateDrawing = function (snapshot) {
             loadingSnapshot = true;

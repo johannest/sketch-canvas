@@ -11,4 +11,6 @@ public class SketchCanvasState extends JavaScriptComponentState {
   public String backgroundColor = "hsla(0%, 0%, 0%, 0)";
 
   public int strokeWidth = 5;
+
+  public String contextPath = "";
 }

@@ -29,6 +29,7 @@ import com.vaadin.ui.HorizontalLayout;
   protected Button setWidth300;
   protected Button setHeight100;
   protected Button setHeight400;
+  protected Button setFullSize;
   protected SketchCanvas sketchCanvas;
   protected SketchCanvas sketchCanvas1;
   protected SketchCanvas sketchCanvas2;
