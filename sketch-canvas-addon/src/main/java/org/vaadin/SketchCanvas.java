@@ -11,6 +11,7 @@ import com.vaadin.annotations.JavaScript;
 import com.vaadin.annotations.StyleSheet;
 import com.vaadin.server.Resource;
 import com.vaadin.server.StreamResource;
+import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.AbstractJavaScriptComponent;
 
 import elemental.json.JsonArray;
@@ -21,9 +22,8 @@ import elemental.json.JsonObject;
  */
 @StyleSheet({ "vaadin://sketchcanvas/css/literallycanvas.css" })
 @StyleSheet({ "vaadin://sketchcanvas/css/additionalstyles.css" })
-@JavaScript({ "http://cdnjs.cloudflare.com/ajax/libs/react/0.14"
-    + ".7/react-with-addons.js",
-    "http://cdnjs.cloudflare" + ".com/ajax/libs/react/0.14.7/react-dom.js",
+@JavaScript({ "vaadin://sketchcanvas/js/react-with-addons.js",
+    "vaadin://sketchcanvas/js/react-dom.js",
     "vaadin://sketchcanvas/js/literallycanvas.js",
     "vaadin://sketchcanvas/js/sketchcanvas-connector.js" })
 public class SketchCanvas extends AbstractJavaScriptComponent {
@@ -217,6 +217,8 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
         consumer.consume(arguments.getString(0));
       });
     });
+
+    callFunction("initialize", VaadinServlet.getCurrent().getServletContext().getContextPath());
   }
 
   @Override
