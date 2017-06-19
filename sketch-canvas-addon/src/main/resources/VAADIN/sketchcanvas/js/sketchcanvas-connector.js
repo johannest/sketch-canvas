@@ -6,9 +6,14 @@ window.org_vaadin_SketchCanvas =
 
         var width = null;
         var height = null;
-        var loadingSnapshot = false;
-        var currentToolName;
         var enabled = true;
+
+        var loadingSnapshot = false;
+
+        var currentToolName;
+        var currentPColor = "black";
+        var currentSColor = "white";
+        var currentBColor = "hsla(0,100%,100%,0)";
 
         this.onStateChange = function () {
             var state = this.getState();
@@ -56,6 +61,7 @@ window.org_vaadin_SketchCanvas =
         this.updateDrawing = function (snapshot) {
             loadingSnapshot = true;
             lc.loadSnapshot(JSON.parse(snapshot));
+            restoreOriginalColors();
             loadingSnapshot = false;
         };
 
@@ -63,6 +69,7 @@ window.org_vaadin_SketchCanvas =
             loadingSnapshot = true;
             var scaledSnapshot = snapshot.replace(new RegExp("scale\":[0-9.]*,"),"scale\":"+scalingFactor+",");
             lc.loadSnapshot(JSON.parse(scaledSnapshot));
+            restoreOriginalColors();
             loadingSnapshot = false;
         };
 
@@ -80,6 +87,12 @@ window.org_vaadin_SketchCanvas =
         function addSelectedClassNameToTool(tool) {
             var toolElement = element.querySelector("div.lc-pick-tool[title=" + tool + "]");
             toolElement.classList.add("selected");
+        }
+
+        function restoreOriginalColors() {
+            lc.setColor("primary", currentPColor);
+            lc.setColor("secondary", currentSColor);
+            lc.setColor("background", currentBColor);
         }
 
         this.setSelectedTool = function (tool, storeWidth) {
@@ -152,18 +165,27 @@ window.org_vaadin_SketchCanvas =
         });
 
         var unsubscribePrimaryColorChange = lc.on('primaryColorChange', function (color) {
-            console.log(color);
-            self.primaryColorChange(color);
+            if (!loadingSnapshot) {
+                console.log(color);
+                currentPColor = color;
+                self.primaryColorChange(color);
+            }
         });
 
         var unsubscribeSecondaryColorChange = lc.on('secondaryColorChange', function (color) {
-            console.log(color);
-            self.secondaryColorChange(color);
+            if (!loadingSnapshot) {
+                console.log(color);
+                currentSColor = color;
+                self.secondaryColorChange(color);
+            }
         });
 
         var unsubscribeBackgroundColorChange = lc.on('backgroundColorChange', function (color) {
-            console.log(color);
-            self.backgroundColorChange(color);
+            if (!loadingSnapshot) {
+                console.log(color);
+                currentBColor = color;
+                self.backgroundColorChange(color);
+            }
         });
 
         this.requestSVG = function() {
