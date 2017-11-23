@@ -76,7 +76,7 @@ window.org_vaadin_SketchCanvas =
         this.clearDrawing = function () {
             lc.clear();
         };
-
+        
         function removeSelectedClassNameFromPreviousTool() {
             var previousToolElement = element.querySelector("div.lc-pick-tool[title=" + currentToolName + "]");
             if (previousToolElement) {
@@ -96,7 +96,7 @@ window.org_vaadin_SketchCanvas =
         }
 
         this.setSelectedTool = function (tool, storeWidth) {
-            // TODO update css selected classname 
+            // TODO update css selected classname
             switch (tool) {
                 case "Pencil" :
                     var pencil = new LC.tools.Pencil(lc);
@@ -196,5 +196,10 @@ window.org_vaadin_SketchCanvas =
         this.requestImage = function() {
             var imgData = lc.getImage().toDataURL();
             self.setImageData(imgData);
+        };
+        
+        this.requestSnapshot = function() {
+        	var snapshot= JSON.stringify(lc.getSnapshot());
+        	this.setSnapshot(snapshot);
         };
     };
