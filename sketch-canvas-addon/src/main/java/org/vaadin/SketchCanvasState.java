@@ -13,4 +13,7 @@ public class SketchCanvasState extends JavaScriptComponentState {
   public int strokeWidth = 5;
 
   public String contextPath = "";
+  
+  public Integer canvasWidth;
+  public Integer canvasHeight;
 }

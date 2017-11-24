@@ -279,4 +279,21 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
       return new ByteArrayInputStream(Base64.getDecoder().decode(imgData.split(",")[1].getBytes(StandardCharsets.UTF_8)));
     }, fileName);
   }
+  
+  /**
+   * Set the width of the canvas
+   * @param width the width of the canvas or {@code null} for infinite
+   */
+  public void setCanvasWidth(Integer width) {
+	getState().canvasWidth = width;
+  }
+
+  /**
+   * Set the height of the canvas
+   * @param height the height of the canvas or {@code null} for infinite
+   */
+  public void setCanvasHeight(Integer height) {
+	getState().canvasHeight = height;
+  }
+  
 }
