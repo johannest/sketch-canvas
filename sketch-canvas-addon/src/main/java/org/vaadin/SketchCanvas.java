@@ -31,10 +31,10 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   /**
    * Image data consumer
-   * @param <String> svg or base64 image
+   * @param <T> svg, base64 image or the snapshot of the canvas as a JSON string
    */
-  public interface ImageDataConsumer<String> {
-    void consume(String imageData);
+  public interface ImageDataConsumer<T> {
+    void consume(T imageData);
   }
 
   /**
@@ -64,9 +64,10 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   private ArrayList<DrawingChangeListener> drawingChangeListeners = new ArrayList<DrawingChangeListener>();
 
-  private Optional<ImageDataConsumer<String>> optionalSVGConsumer;
-  private Optional<ImageDataConsumer<String>> optionalImageConsumer;
-
+  private Optional<ImageDataConsumer<String>> optionalSVGConsumer = Optional.empty();
+  private Optional<ImageDataConsumer<String>> optionalImageConsumer = Optional.empty();
+  private Optional<ImageDataConsumer<String>> optionalDrawingSnapshotConsumer = Optional.empty();
+  
   /**
    * Initialize full sized
    */
@@ -160,7 +161,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    * @param svgConsumer
    */
   public void requestImageAsSVGString(ImageDataConsumer<String> svgConsumer) {
-    this.optionalSVGConsumer = Optional.of(svgConsumer);
+    this.optionalSVGConsumer = Optional.ofNullable(svgConsumer);
     callFunction("requestSVG");
   }
 
@@ -169,8 +170,13 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    * @param imageConsumer
    */
   public void requestImageAsBase64(ImageDataConsumer<String> imageConsumer) {
-    this.optionalImageConsumer = Optional.of(imageConsumer);
+    this.optionalImageConsumer = Optional.ofNullable(imageConsumer);
     callFunction("requestImage");
+  }
+  
+  public void requestCanvasSnapshot(ImageDataConsumer<String> drawingSnapshotConsumer) {
+	this.optionalDrawingSnapshotConsumer = Optional.ofNullable(drawingSnapshotConsumer);
+	callFunction("requestSnapshot");
   }
 
   /**
@@ -224,6 +230,11 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
       optionalImageConsumer.ifPresent(consumer -> {
         consumer.consume(arguments.getString(0));
       });
+    });
+    addFunction("setSnapshot", snapshot -> {
+    	optionalDrawingSnapshotConsumer.ifPresent(consumer -> {
+    		consumer.consume(snapshot.getString(0));
+    	});
     });
   }
 
