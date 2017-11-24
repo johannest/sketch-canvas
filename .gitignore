@@ -1,0 +1,10 @@
+# maven build
+*/target/
+
+# eclipse project files
+.project
+.settings
+
+*/.project
+*/.classpath
+*/.settings
