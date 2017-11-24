@@ -31,7 +31,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
 
   /**
    * Image data consumer
-   * @param <String> svg or base64 image
+   * @param <T> svg, base64 image or the snapshot of the canvas as a JSON string
    */
   public interface ImageDataConsumer<T> {
     void consume(T imageData);
