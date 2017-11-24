@@ -2,7 +2,7 @@
 <html>
  <head>
   <meta charset="UTF-8">
-  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;demo&quot;}">
+  <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;demo&quot;}">
   <meta name="vaadin-version" content="8.0.5">
   <meta name="package-mapping" content="org_vaadin:org.vaadin">
  </head>
@@ -49,14 +49,20 @@
        <vaadin-button _id="setWidth300">
          setWidth(300px) 
        </vaadin-button>
+       <vaadin-button plain-text _id="setCanvasWidth200">
+         setCanvasWidth(200) 
+       </vaadin-button>
        <vaadin-button _id="setHeight100">
          setHeight(100%) 
        </vaadin-button>
        <vaadin-button plain-text _id="setHeight400">
          setHeight(400px) 
        </vaadin-button>
+       <vaadin-button plain-text _id="setCanvasHeight200">
+         setCanvasHeight(200) 
+       </vaadin-button>
        <vaadin-button plain-text _id="setFullSize">
-        setSizeFull()
+         setSizeFull() 
        </vaadin-button>
       </vaadin-horizontal-layout>
       <org_vaadin-sketch-canvas width="500px" height="400px" _id="sketchCanvas" :expand></org_vaadin-sketch-canvas>

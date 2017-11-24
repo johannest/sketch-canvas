@@ -8,6 +8,9 @@ window.org_vaadin_SketchCanvas =
         var height = null;
         var enabled = true;
 
+        var canvasWidth = null;
+        var canvasHeight = null;
+        
         var loadingSnapshot = false;
 
         var currentToolName;
@@ -29,6 +32,12 @@ window.org_vaadin_SketchCanvas =
                 var evt = document.createEvent("UIEvent");
                 evt.initEvent("resize", false, true);
                 window.dispatchEvent(evt);
+            }
+            
+            if (canvasWidth !== state.canvasWidth || height !== state.canvasHeight) {
+            	canvasWidth = state.canvasWidth;
+            	canvasHeight = state.canvasHeight;
+            	lc.setImageSize(canvasWidth, canvasHeight);
             }
 
             if (enabled !== state.enabled && state.enabled !== undefined) {

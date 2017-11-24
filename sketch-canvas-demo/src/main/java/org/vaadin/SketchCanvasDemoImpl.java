@@ -65,11 +65,17 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
         setWidth300.addClickListener(e -> {
             sketchCanvas.setWidth("300px");
         });
+        setCanvasWidth200.addClickListener(e -> {
+        	sketchCanvas.setCanvasWidth(200);
+        });
         setHeight100.addClickListener(e -> {
             sketchCanvas.setHeight("100%");
         });
         setHeight400.addClickListener(e -> {
             sketchCanvas.setHeight("400px");
+        });
+        setCanvasHeight200.addClickListener(e -> {
+        	sketchCanvas.setCanvasHeight(200);
         });
         setFullSize.addClickListener(e -> {
             sketchCanvas.setSizeFull();
