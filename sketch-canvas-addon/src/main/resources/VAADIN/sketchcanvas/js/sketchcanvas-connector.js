@@ -67,10 +67,13 @@ window.org_vaadin_SketchCanvas =
             {imageSize: {width: width, height: height}}
         );
 
-        this.updateDrawing = function (snapshot) {
+        this.updateDrawing = function (snapshot, ignoreColorChanges) {
             loadingSnapshot = true;
             lc.loadSnapshot(JSON.parse(snapshot));
-            restoreOriginalColors();
+
+            if (ignoreColorChanges)
+              restoreOriginalColors();
+
             loadingSnapshot = false;
         };
 

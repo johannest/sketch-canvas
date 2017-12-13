@@ -67,7 +67,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
   private Optional<ImageDataConsumer<String>> optionalSVGConsumer = Optional.empty();
   private Optional<ImageDataConsumer<String>> optionalImageConsumer = Optional.empty();
   private Optional<ImageDataConsumer<String>> optionalDrawingSnapshotConsumer = Optional.empty();
-  
+
   /**
    * Initialize full sized
    */
@@ -81,7 +81,17 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    * @param json
    */
   public void updateDrawing(JsonArray json) {
-    callFunction("updateDrawing", json.get(0));
+    callFunction("updateDrawing", json.get(0), true);
+  }
+
+  /**
+   * Update canvas with given json snapshot
+   *
+   * @param json
+   * @param ignoreColorChanges false if you want the colors of the snapshot to be set for the canvas
+   */
+  public void updateDrawing(JsonArray json, boolean ignoreColorChanges) {
+    callFunction("updateDrawing", json.get(0), ignoreColorChanges);
   }
 
   /**
@@ -173,7 +183,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     this.optionalImageConsumer = Optional.ofNullable(imageConsumer);
     callFunction("requestImage");
   }
-  
+
   public void requestCanvasSnapshot(ImageDataConsumer<String> drawingSnapshotConsumer) {
 	this.optionalDrawingSnapshotConsumer = Optional.ofNullable(drawingSnapshotConsumer);
 	callFunction("requestSnapshot");
@@ -279,7 +289,7 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
       return new ByteArrayInputStream(Base64.getDecoder().decode(imgData.split(",")[1].getBytes(StandardCharsets.UTF_8)));
     }, fileName);
   }
-  
+
   /**
    * Set the width of the canvas
    * @param width the width of the canvas or {@code null} for infinite
@@ -295,5 +305,5 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
   public void setCanvasHeight(Integer height) {
 	getState().canvasHeight = height;
   }
-  
+
 }
