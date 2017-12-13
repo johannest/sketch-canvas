@@ -85,6 +85,24 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
   }
 
   /**
+   * Set the image in the given url as a background image
+   *
+   * @param url
+   */
+  public void setBackgroundImage(String url) {
+    if (url != null) {
+      callFunction("setBackgroundImage", url);
+    }
+  }
+
+  /**
+   * Remove the background image from the c
+   */
+  public void clearBackgroundImage() {
+    callFunction("setBackgroundImage", "");
+  }
+
+  /**
    * Update canvas with given json snapshot
    *
    * @param json
