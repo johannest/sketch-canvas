@@ -206,9 +206,13 @@ window.org_vaadin_SketchCanvas =
             var imgData = lc.getImage().toDataURL();
             self.setImageData(imgData);
         };
-        
+
         this.requestSnapshot = function() {
         	var snapshot= JSON.stringify(lc.getSnapshot());
         	this.setSnapshot(snapshot);
         };
+
+        this.addResizeListener(element, function() {
+          lc.respondToSizeChange();
+        });
     };
