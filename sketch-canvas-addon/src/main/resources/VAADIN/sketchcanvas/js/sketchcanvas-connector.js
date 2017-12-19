@@ -10,8 +10,9 @@ window.org_vaadin_SketchCanvas =
 
         var canvasWidth = null;
         var canvasHeight = null;
-        
+
         var loadingSnapshot = false;
+        var backgroundImageUrl = null;
 
         var currentToolName;
         var currentPColor = "black";
@@ -33,7 +34,7 @@ window.org_vaadin_SketchCanvas =
                 evt.initEvent("resize", false, true);
                 window.dispatchEvent(evt);
             }
-            
+
             if (canvasWidth !== state.canvasWidth || height !== state.canvasHeight) {
             	canvasWidth = state.canvasWidth;
             	canvasHeight = state.canvasHeight;
@@ -67,10 +68,13 @@ window.org_vaadin_SketchCanvas =
             {imageSize: {width: width, height: height}}
         );
 
-        this.updateDrawing = function (snapshot) {
+        this.updateDrawing = function (snapshot, ignoreColorChanges) {
             loadingSnapshot = true;
             lc.loadSnapshot(JSON.parse(snapshot));
-            restoreOriginalColors();
+
+            if (ignoreColorChanges)
+              restoreOriginalColors();
+
             loadingSnapshot = false;
         };
 
@@ -85,7 +89,7 @@ window.org_vaadin_SketchCanvas =
         this.clearDrawing = function () {
             lc.clear();
         };
-        
+
         function removeSelectedClassNameFromPreviousTool() {
             var previousToolElement = element.querySelector("div.lc-pick-tool[title=" + currentToolName + "]");
             if (previousToolElement) {
@@ -197,18 +201,49 @@ window.org_vaadin_SketchCanvas =
             }
         });
 
+        this.setBackgroundImage = function(url) {
+          backgroundImageUrl = url;
+          self.updateBackground(url);
+          lc.respondToSizeChange();
+        };
+
+        this.updateBackground = function(url) {
+          loadingSnapshot = true;
+          if (url || url != '') {
+            var newImage = new Image();
+            newImage.style.width = '100%';
+            newImage.style.height = '100%';
+            newImage.src = self.translateVaadinUri(url);
+
+            lc.backgroundShapes = [LC.createShape('Image', {
+              x: 0,
+              y: 0,
+              image: newImage,
+              scale: 1
+            })];
+          } else {
+            lc.backgroundShapes = [];
+          }
+          loadingSnapshot = false;
+        }
+
         this.requestSVG = function() {
             var svgStr = lc.getSVGString();
             self.setSVGString(svgStr);
         };
 
         this.requestImage = function() {
+            self.updateBackground(backgroundImageUrl);
             var imgData = lc.getImage().toDataURL();
             self.setImageData(imgData);
         };
-        
+
         this.requestSnapshot = function() {
         	var snapshot= JSON.stringify(lc.getSnapshot());
         	this.setSnapshot(snapshot);
         };
+
+        this.addResizeListener(element, function() {
+          lc.respondToSizeChange();
+        });
     };
