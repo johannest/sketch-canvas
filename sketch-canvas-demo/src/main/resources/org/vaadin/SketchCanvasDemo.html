@@ -3,7 +3,7 @@
  <head>
   <meta charset="UTF-8">
   <meta name="design-properties" content="{&quot;RULERS_VISIBLE&quot;:true,&quot;GUIDELINES_VISIBLE&quot;:false,&quot;SNAP_TO_OBJECTS&quot;:true,&quot;SNAP_TO_GRID&quot;:true,&quot;SNAPPING_DISTANCE&quot;:10,&quot;GENERATE_GETTERS&quot;:false,&quot;JAVA_SOURCES_ROOT&quot;:&quot;src/main/java&quot;,&quot;THEME&quot;:&quot;demo&quot;}">
-  <meta name="vaadin-version" content="8.0.5">
+  <meta name="vaadin-version" content="8.1.5">
   <meta name="package-mapping" content="org_vaadin:org.vaadin">
  </head>
  <body>
@@ -11,57 +11,61 @@
    <vaadin-label style-name="h2" width-full plain-text>
      Demo UI for sketch-canvas add-on. 
    </vaadin-label>
-   <vaadin-tab-sheet size-full :expand>
+   <vaadin-tab-sheet style-name="tiny" size-full :expand>
     <tab caption="Simple example" selected>
      <vaadin-vertical-layout size-full>
       <vaadin-horizontal-layout>
-       <vaadin-button _id="clear">
+       <vaadin-button style-name="tiny" _id="clear">
          clear 
        </vaadin-button>
-       <vaadin-button _id="showCurrentState">
+       <vaadin-button style-name="tiny" _id="showCurrentState">
          showCurrentState 
        </vaadin-button>
-       <vaadin-button plain-text _id="setColors">
+       <vaadin-button style-name="tiny" plain-text _id="setColors">
          setColors (red/green/white) 
        </vaadin-button>
-       <vaadin-button _id="setToolPencil">
+       <vaadin-button style-name="tiny" _id="setToolPencil">
          setTool (Pencil:1) 
        </vaadin-button>
-       <vaadin-button _id="setToolEllipse">
+       <vaadin-button style-name="tiny" _id="setToolEllipse">
          setTool (Ellipse:10) 
        </vaadin-button>
       </vaadin-horizontal-layout>
-      <vaadin-horizontal-layout _id="buttonLo1">
-       <vaadin-button _id="downloadAsSVG">
+      <vaadin-horizontal-layout style-name="tiny" _id="buttonLo1">
+       <vaadin-button style-name="tiny" _id="downloadAsSVG">
          Download as SVG 
        </vaadin-button>
-       <vaadin-button _id="downloadAsPNG">
+       <vaadin-button style-name="tiny" _id="downloadAsPNG">
          Download as PNG 
        </vaadin-button>
-       <vaadin-button plain-text _id="toggleSetEnabled">
+       <vaadin-button style-name="tiny" plain-text _id="toggleSetEnabled">
          toggle setEnabled 
        </vaadin-button>
+       <vaadin-button style-name="tiny" plain-text _id="setBackground">
+         Set background 
+       </vaadin-button>
+       <vaadin-text-field style-name="tiny" placeholder="Background URL" _id="backgroundURL"></vaadin-text-field>
       </vaadin-horizontal-layout>
       <vaadin-horizontal-layout>
-       <vaadin-button _id="setWidth100">
+       <vaadin-button style-name="tiny" _id="setWidth100">
          setWidth(100%) 
        </vaadin-button>
-       <vaadin-button _id="setWidth300">
+       <vaadin-button style-name="tiny" _id="setWidth300">
          setWidth(300px) 
        </vaadin-button>
-       <vaadin-button plain-text _id="setCanvasWidth200">
+       <vaadin-button style-name="tiny" plain-text _id="setCanvasWidth200">
          setCanvasWidth(200) 
        </vaadin-button>
-       <vaadin-button _id="setHeight100">
+       <vaadin-button style-name="tiny" _id="setHeight100">
          setHeight(100%) 
        </vaadin-button>
-       <vaadin-button plain-text _id="setHeight400">
+       <vaadin-button style-name="tiny" plain-text _id="setHeight400">
          setHeight(400px) 
        </vaadin-button>
-       <vaadin-button plain-text _id="setCanvasHeight200">
+       <vaadin-button style-name="tiny" plain-text _id="setCanvasHeight200">
          setCanvasHeight(200) 
        </vaadin-button>
-       <vaadin-button plain-text _id="setFullSize">
+       <vaadin-button style-name="tiny" plain-text _id="setFullSize">
          setSizeFull() 
        </vaadin-button>
       </vaadin-horizontal-layout>

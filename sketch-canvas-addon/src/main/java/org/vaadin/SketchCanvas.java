@@ -1,22 +1,27 @@
 package org.vaadin;
 
+import com.vaadin.annotations.JavaScript;
+import com.vaadin.annotations.StyleSheet;
+import com.vaadin.server.Resource;
+import com.vaadin.server.ResourceReference;
+import com.vaadin.server.StreamResource;
+import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.AbstractJavaScriptComponent;
+import elemental.json.JsonArray;
+import elemental.json.JsonObject;
+import elemental.json.JsonString;
+import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.Serializable;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Optional;
-
-import com.vaadin.annotations.JavaScript;
-import com.vaadin.annotations.StyleSheet;
-import com.vaadin.server.Resource;
-import com.vaadin.server.StreamResource;
-import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.AbstractJavaScriptComponent;
-
-import elemental.json.JsonArray;
-import elemental.json.JsonObject;
-import elemental.json.JsonString;
 
 /**
  * Simple collaborative sketching widget
@@ -91,8 +96,35 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
    */
   public void setBackgroundImage(String url) {
     if (url != null) {
-      callFunction("setBackgroundImage", url);
+        try {
+            StreamResource resource = getStreamResource(url);
+            setResource("download", resource);
+            ResourceReference rr = ResourceReference.create(resource, this, "download");
+            callFunction("setBackgroundImage", rr.getURL());
+        } catch (Exception e) {
+            // TODO add better error handling
+            e.printStackTrace();
+            callFunction("setBackgroundImage", url);
+        }
     }
+  }
+
+  private StreamResource getStreamResource(final String url) {
+    return new StreamResource((StreamResource.StreamSource) () -> {
+      InputStream in = null;
+      try {
+        URL fileURL = new URL(url);
+        URLConnection connection = fileURL.openConnection();
+        connection.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+        in = new BufferedInputStream(connection.getInputStream());
+        byte[] bytes = IOUtils.toByteArray(in);
+        return new ByteArrayInputStream(bytes);
+      } catch (Exception e) {
+        // TODO add better error handling
+        e.printStackTrace();
+      }
+      return in;
+    },"background."+((url.toLowerCase().contains(".png"))?"png":"jpg"));
   }
 
   /**

@@ -43,6 +43,7 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
                 FileDownloader fd = new FileDownloader(
                         SketchCanvas.getSVGResource(svg, "my_image.svg"));
                 Button downloadButton = new Button("download");
+                downloadButton.addStyleName("tiny");
                 fd.extend(downloadButton);
                 buttonLo1.addComponent(downloadButton);
             });
@@ -52,6 +53,7 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
                 FileDownloader fd = new FileDownloader(
                         SketchCanvas.getPNGResource(img, "my_image.png"));
                 Button downloadButton = new Button("download");
+                downloadButton.addStyleName("tiny");
                 fd.extend(downloadButton);
                 buttonLo1.addComponent(downloadButton);
             });
@@ -80,6 +82,13 @@ public class SketchCanvasDemoImpl extends SketchCanvasDemo {
         setFullSize.addClickListener(e -> {
             sketchCanvas.setSizeFull();
         });
+        setBackground.addClickListener(e -> {
+            sketchCanvas.setBackgroundImage(backgroundURL.getValue());
+        });
+        backgroundURL.addValueChangeListener(e -> {
+           setBackground.setEnabled(e.getValue()!=null && !e.getValue().isEmpty());
+        });
+        setBackground.setEnabled(false);
     }
 
     private void initializeTab2() {
