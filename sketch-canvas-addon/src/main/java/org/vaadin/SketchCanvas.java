@@ -34,6 +34,8 @@ import java.util.Optional;
     "vaadin://sketchcanvas/js/sketchcanvas-connector.js" })
 public class SketchCanvas extends AbstractJavaScriptComponent {
 
+  private ResourceReference resourceReference;
+
   /**
    * Image data consumer
    * @param <T> svg, base64 image or the snapshot of the canvas as a JSON string
@@ -89,6 +91,14 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
     callFunction("updateDrawing", json.get(0), true);
   }
 
+  @Override
+  public void attach() {
+    super.attach();
+    if (resourceReference!=null) {
+      callFunction("setBackgroundImage", resourceReference.getURL());
+    }
+  }
+
   /**
    * Set the image in the given url as a background image
    *
@@ -99,8 +109,10 @@ public class SketchCanvas extends AbstractJavaScriptComponent {
         try {
             StreamResource resource = getStreamResource(url);
             setResource("download", resource);
-            ResourceReference rr = ResourceReference.create(resource, this, "download");
-            callFunction("setBackgroundImage", rr.getURL());
+            resourceReference = ResourceReference.create(resource, this, "download");
+            if (getUI()!=null) {
+              callFunction("setBackgroundImage", resourceReference.getURL());
+            }
         } catch (Exception e) {
             // TODO add better error handling
             e.printStackTrace();

@@ -233,7 +233,7 @@ window.org_vaadin_SketchCanvas =
         };
 
         this.requestImage = function() {
-            self.updateBackground(backgroundImageUrl);
+            //self.updateBackground(backgroundImageUrl);
             var imgData = lc.getImage().toDataURL();
             self.setImageData(imgData);
         };
